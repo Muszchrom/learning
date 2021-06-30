@@ -1,0 +1,93 @@
+.class-black-background {
+  background-color: black;
+  border: 1px dashed yellow;
+}
+.ul-display-flex {
+  padding: 0;
+  display: flex;
+  list-style-type: none;
+  justify-content: space-around;
+}
+.ul-display-flex li {
+  padding: .6em;
+  border-bottom: 1px solid yellow;
+}
+.margin-top6em {
+  margin-top: .6em;
+}
+
+
+
+.signinform {
+  background-color: black;
+  border: dashed 1px yellow;
+  padding: 1em 2em;
+  margin-bottom: .6em;
+}
+
+.signup-link {
+  display: inline-block;
+  padding: .6em;
+  border: 1px dashed yellow;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+label {
+  display: block;
+  margin: .6em 0;
+}
+
+input,
+button {
+  width: 100%;
+  background-color: transparent;
+  color: yellow;
+  border: 1px dashed yellow;
+  padding: .6em;
+}
+
+.sign-in-button {
+  margin-top: 1em;
+  cursor: pointer;
+}
+
+.navigation-u-list-item .active {
+  font-weight: bold;
+  border-bottom: solid 1px yellow;
+  box-shadow: inset 0 -1px 0 yellow, 0 1px 0 yellow;
+}
+
+a:focus {
+  /* outline: 0; */
+  /* box-shadow: inset -2px -2px yellow,
+              2px 1px 0 yellow,
+              inset 2px 2px 0 yellow,
+              -2px -1px 0 yellow; */
+  /* border-bottom: 1px solid yellow; */
+}
+
+button:focus {
+  /* box-shadow: inset 0 -3px 0 yellow; */
+  /* border-bottom: 1px solid yellow; */
+}
+
+input:focus {
+  outline: 0;
+  box-shadow: inset 0 -3px 0 yellow;
+  border-bottom: 1px solid yellow;
+}
+
+@media (min-width: 992px) {
+  .signinform-wrapper {
+    width: 50%;
+    margin: auto;
+  }
+}
+
+@media (min-width: 1200px) {
+
+}
