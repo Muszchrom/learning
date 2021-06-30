@@ -5,7 +5,7 @@ export default function SignIn () {
     <main>
       <div className="signinform">
         <div className="signinform-wrapper">
-          <form>
+          <form onSubmit={e => e.preventDefault()} method="POST">
             <h1>Zaloguj się</h1>
             <fieldset>
               <label htmlFor="name">Nazwa użytkownika: </label>
