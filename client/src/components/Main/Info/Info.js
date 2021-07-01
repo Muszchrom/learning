@@ -8,7 +8,7 @@ import {MyWebSite, MinecraftServer} from '../../../data/infos.js';
 export default function Info ({match}) {
   return (
     <main>
-      <header className="class-black-background">
+      <nav className="class-black-background">
         <ul className="ul-display-flex">
           {/* match.url is just current url and we're adding /minecraft-server to it for example
             NavLink with {match.url} works the same as link in the middle
@@ -19,7 +19,7 @@ export default function Info ({match}) {
           <li><NavLink to="/info/strona-internetowa">Strona internetowa</NavLink></li>
           <li><NavLink to={`${match.url}/moje-osiagniecia`}>Moje osiągnięcia</NavLink></li>
         </ul>
-      </header>
+      </nav>
       {/* We're passing Redirect to Route because to solve problem with rendering /info without default Route
       For example if you would click on Informacje then click it again, then default Route wouldnt be avaiable anymore */}
       {/* match.path is turbo similar to match.url from above, i hope i dont need to explain that */}
