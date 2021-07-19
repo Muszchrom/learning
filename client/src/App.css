@@ -251,6 +251,16 @@ input {
   color: red;
   font-size: .8em;
 }
+.error-input-icon-div {
+  position: relative;
+  display: none;
+}
+
+.error-input-icon {
+  position: absolute;
+  right: 10px;
+  bottom: 38px;
+}
 
 .progress-bar {
   display: block;

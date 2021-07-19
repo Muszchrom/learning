@@ -25,12 +25,12 @@ const SignIn = () => {
     <form method="post" onSubmit={validateUserInput}>
       <h1>Zaloguj się</h1>
       <fieldset>
+        {errors && <p className="error-message-info">Niepoprawny login i/lub hasło</p>}
         <label htmlFor="login">Podaj Login:</label>
         <input type="text" id="login" value={login} onChange={e => setLogin(e.target.value)}/>
         <label htmlFor="password">Podaj Hasło:</label>
         <input type="text" id="password" value={password} onChange={e => setPassword(e.target.value)}/>
         <button type="submit" name="button">Zaloguj się</button>
-        {errors && <p className="error-message-info">Niepoprawny login i/lub hasło</p>}
       </fieldset>
       <h2>Nie masz konta?</h2>
       <Link className="a-button" to="signup">Zarejestruj się</Link>

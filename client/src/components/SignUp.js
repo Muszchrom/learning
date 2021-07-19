@@ -64,10 +64,12 @@ const SignUp = ({data}) => {
         input.nextSibling.innerText = inputErrors[field].message;
         input.nextSibling.style.display = 'block';
         input.style.border = '1px solid red';
+        input.nextSibling.nextSibling.style.display = 'block';
       } else {
         input.nextSibling.innerText = '';
         input.nextSibling.style.display = 'none';
         input.style.border = '1px solid white';
+        input.nextSibling.nextSibling.style.display = 'none';
       }
     }
   }, [errors]);
@@ -79,18 +81,47 @@ const SignUp = ({data}) => {
         <label htmlFor="name">Imię:</label>
         <input type="text" id="name" onChange={e => setName(e.target.value)}/>
         <p className="error-message-info"></p>
+        <div className="error-input-icon-div">
+          <i className="material-icons error-input-icon" style={{color: 'red'}}>
+            warning
+          </i>
+        </div>
+
         <label htmlFor="username">Nazwa użytkownika:</label>
         <input type="text" id="username" onChange={e => setUsername(e.target.value)}/>
         <p className="error-message-info"></p>
+        <div className="error-input-icon-div">
+          <i className="material-icons error-input-icon" style={{color: 'red'}}>
+            warning
+          </i>
+        </div>
+
         <label htmlFor="email">Emile:</label>
         <input type="text" id="email" onChange={e => setEmail(e.target.value)}/>
         <p className="error-message-info"></p>
+        <div className="error-input-icon-div">
+          <i className="material-icons error-input-icon" style={{color: 'red'}}>
+            warning
+          </i>
+        </div>
+
         <label htmlFor="password">Hasło:</label>
         <input type="text" id="password" onChange={e => setPassword(e.target.value)}/>
         <p className="error-message-info"></p>
+        <div className="error-input-icon-div">
+          <i className="material-icons error-input-icon" style={{color: 'red'}}>
+            warning
+          </i>
+        </div>
+
         <label htmlFor="confirmedPassword">Powtórz hasło:</label>
         <input type="text" id="confirmedPassword" onChange={e => setConfirmedPassword(e.target.value)}/>
         <p className="error-message-info"></p>
+        <div className="error-input-icon-div">
+          <i className="material-icons error-input-icon" style={{color: 'red'}}>
+            warning
+          </i>
+        </div>
       </fieldset>
       <button type="submit" name="button">Zarejestruj się</button>
       <h2>Masz konto?</h2>
