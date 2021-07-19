@@ -1,41 +1,52 @@
 import './App.css';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
-import Header from './components/Header/Header';
-import Main from './components/Main/Main';
-import Info from './components/Main/Info/Info';
-import Reviews from './components/Main/Reviews/Reviews';
-import SignIn from './components/Main/SignIn';
-import SignUp from './components/Main/SignUp';
-import NotFound from './components/Main/NotFound';
-import Footer from './components/Footer/Footer';
-// Testing git status
-// another testing ;D
-import AssassinsCreed from './components/Main/Reviews/AssassinsCreed';
-import DeadSpace from './components/Main/Reviews/DeadSpace';
+import Data from './Data';
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+import Home from './components/Home';
+import Kalkulator from './components/Kalkulator';
+import Minecraft from './components/Minecraft';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <div className="main-wrapper">
-        <Header />
-        {/* Switch will render only the first route that matches, so that's why we place NotFound at the end of file */}
-        <Switch>
-          <Route exact path="/" component={Main} />
-          <Route path="/get-info-from-link/:age/:fname-:sname" component={Main} />
-          <Route path="/info" component={Info} />
-          <Route exact path="/reviews/" component={Reviews} />
-          <Route path="/reviews/assassins-creed" component={AssassinsCreed} />
-          <Route path="/reviews/dead-space" component={DeadSpace} />
 
-          {/* <Route path="/games" component={Games} /> */}
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <Route component={NotFound}/>
-        </Switch>
+  const data = new Data();
+
+  return (
+    <Router>
+      <div className="body-wrapper">
+        <Header />
+        <main>
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/kalkulator">
+              <Kalkulator />
+            </Route>
+            <Route path="/minecraft">
+              <Minecraft data={data}/>
+            </Route>
+            <Route path="/signin">
+              <SignIn />
+            </Route>
+            <Route path="/signup">
+              <SignUp data={data}/>
+            </Route>
+          </Switch>
+        </main>
         <Footer />
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 

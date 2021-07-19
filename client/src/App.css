@@ -1,100 +1,280 @@
-.class-black-background {
-  background-color: black;
-  border: 1px dashed yellow;
+* {
+  box-sizing: border-box;
 }
-.ul-display-flex {
-  padding: 0;
+
+body {
+  margin: 0;
+  font-family: arial;
+  color: #cfcfcf;
+  background-color: #1f1f1f;
+}
+
+main {
+  padding: 1em;
+}
+
+.header-wrapper {
+  background: #0f0f0f;
   display: flex;
-  list-style-type: none;
+  align-items: center;
   justify-content: space-around;
-}
-.ul-display-flex li {
-  margin: .3em 0;
-}
-.ul-display-flex li a {
   padding: .6em;
-  border-bottom: 1px solid rgba(255, 255, 0, .5);
-}
-.ul-display-flex li .active {
-  font-weight: bold;
-  border-bottom: 1px solid rgba(255, 255, 0, 1);
-}
-.margin-top6em {
-  margin-top: .6em;
+  height: 8vh;
 }
 
-
-
-.signinform {
-  background-color: black;
-  border: dashed 1px yellow;
-  padding: 1em 2em;
-  margin-bottom: .6em;
+.body-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.signup-link {
+.text-logo {
+  font-size: 2em;
+  width: 70%;
+  text-align: center;
+}
+
+.profile-img-div {
+  width: 15%;
+}
+
+.profile-img-div-size {
+  width: 40px;
+  height: 40px;
+}
+
+.profile-img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.main-footer {
+  margin-top: auto;
+  text-align: center;
+}
+
+.footer-wrapper {
+  background-color: #0f0f0f;
+  padding: 1px;
+}
+
+.container-center {
+  text-align: center;
+}
+
+.a-button {
   display: inline-block;
-  padding: .6em;
-  border: 1px dashed yellow;
+  width: 100%;
+  background-color: black;
+  padding: 1em;
+  color: #cfcfcf;
+  font-size: .8em;
+  text-decoration: none;
+  text-align: center;
+}
+
+.a-button:active {
+  background-color: #0f0f0f;
+}
+
+/* ==============================
+Hamburger zajebany
+ ==============================*/
+
+.hamburger {
+  display: inline-block;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  width: 15%;
+}
+
+.hamburger, .navigation {
+  transition: transform .3s .1s ease-in-out;
+}
+
+.hamburger-box {
+  width: 40px;
+  height: 24px;
+  display: inline-block;
+  position: relative;
+}
+
+.hamburger-inner {
+  width: 100%;
+  height: 3px;
+  background-color: #cfcfcf;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background-color .1s .2s ease-in-out;
+}
+
+.hamburger-inner::before,
+.hamburger-inner::after {
+  content: '';
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #cfcfcf;
+  position: absolute;
+  transition: transform .2s .2s ease-in-out;
+}
+
+.hamburger-inner::before {
+  top: -10px;
+}
+
+.hamburger-inner::after {
+  top: 10px;
+}
+
+.hamburger-active .hamburger-inner {
+  background-color: transparent;
+}
+
+.hamburger-active .hamburger-inner:before {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.hamburger-active .hamburger-inner:after {
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+.navigation {
+  height: 92vh;
+  width: 250px;
+  margin-top: 8vh;
+  background-color: #1f1f1f;
+  border-right: 1px solid black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-250px);
+}
+
+.navigation-active {
+  transform: translateX(0);
+}
+
+.navigation-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  list-style-type: none;
+}
+
+.navigation-item {
+}
+
+.navigation-item a {
+  display: flex;
+  text-decoration: none;
+  padding: 10px 0;
+  color: #cfcfcf;
+}
+
+/* ============================
+Form Tags
+===============================*/
+
+.flex-buttons-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.flex-buttons-container button {
+  width: 45%;
+}
+
+.enumerate {
+  background-color: black;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  margin-right: 4px;
+  line-height: 30px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 20%);
+  border-radius: 100%;
+}
+
+button {
+  color: #cfcfcf;
+  background-color: black;
+  width: 100%;
+  padding: 1em;
+  border: 0;
+  font-size: .8em;
+}
+
+button:active {
+  background-color: #0f0f0f;
+}
+
+form {
 }
 
 fieldset {
   border: none;
+  margin: 0;
   padding: 0;
+}
+
+legend {
+  margin-bottom: 1em;
 }
 
 label {
   display: block;
-  margin: .6em 0;
+  margin-bottom: .3em;
 }
 
-input,
-button {
+input {
+  border: none;
   width: 100%;
-  background-color: transparent;
-  color: yellow;
-  border: 1px dashed yellow;
-  padding: .6em;
-}
-
-.sign-in-button {
-  margin-top: 1em;
-  cursor: pointer;
-}
-
-.navigation-u-list-item .active {
-  font-weight: bold;
-  border-bottom: solid 1px yellow;
-  box-shadow: inset 0 -1px 0 yellow, 0 1px 0 yellow;
-}
-
-a:focus {
-  /* outline: 0; */
-  /* box-shadow: inset -2px -2px yellow,
-              2px 1px 0 yellow,
-              inset 2px 2px 0 yellow,
-              -2px -1px 0 yellow; */
-  /* border-bottom: 1px solid yellow; */
-}
-
-button:focus {
-  /* box-shadow: inset 0 -3px 0 yellow; */
-  /* border-bottom: 1px solid yellow; */
-}
-
-input:focus {
+  padding: 1em;
   outline: 0;
-  box-shadow: inset 0 -3px 0 yellow;
-  border-bottom: 1px solid yellow;
+  margin-bottom: 1em;
+  border: 1px solid white;
+  background: #0f0f0f; /* #030303 */
+  color: white;
 }
 
-@media (min-width: 992px) {
-  .signinform-wrapper {
-    width: 50%;
-    margin: auto;
+.error-message-info {
+  margin: -10px 0 10px 0px;
+  color: red;
+  font-size: .8em;
+}
+
+.progress-bar {
+  display: block;
+  text-align: center;
+  border-radius: 20px;
+  height: 1em;
+  width: 100%;
+  padding: .1em;
+  background: black;
+}
+
+.progress-bar-done {
+  background: green;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 0;
+}
+
+@media (min-width: 1250px) {
+  main {
+    width: 800px;
+    margin: 0 auto;
   }
-}
-
-@media (min-width: 1200px) {
-
 }

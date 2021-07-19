@@ -79,7 +79,6 @@ const SignUp = ({data}) => {
         <label htmlFor="name">Imię:</label>
         <input type="text" id="name" onChange={e => setName(e.target.value)}/>
         <p className="error-message-info"></p>
-        <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
         <label htmlFor="username">Nazwa użytkownika:</label>
         <input type="text" id="username" onChange={e => setUsername(e.target.value)}/>
         <p className="error-message-info"></p>
