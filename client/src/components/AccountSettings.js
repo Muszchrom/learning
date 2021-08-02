@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import 'croppie/croppie.css'
 // import Croppie from 'croppie';
+
 import AccountSettingsComponent from './AccountSettingsComponent';
+import ModalWindow from './ModalWindow';
 
 import image from '../images/impostor.jpg'
 
 const AccountSettings = ({ authenticatedUser }) => {
+
+  const imageElement = useRef();
+  const [showProfileImgModal, setShowProfileImgModal] = useState(false);
 
   // const XD = 'aids';
   //
@@ -25,13 +30,30 @@ const AccountSettings = ({ authenticatedUser }) => {
   //   });
   // }, [XD])
   // console.log(authenticatedUser)
+
+  const onClick = () => {
+    showProfileImgModal ? setShowProfileImgModal(false) : setShowProfileImgModal(true);
+  }
+
+  useEffect(() => {
+    imageElement.current.addEventListener('click', () => {
+      setShowProfileImgModal(true);
+    })
+  }, [showProfileImgModal])
+
   return (
     <div>
       {authenticatedUser
         ? (
           <div className="account-settings-container">
             <h1>Cześć {authenticatedUser.name}!</h1>
-            <img src={image} className="account-settings-image" tabIndex="0" alt="Zdjęcie profilowe"/>
+            <img src={image} ref={imageElement} className="account-settings-image" tabIndex="0" alt="Zdjęcie profilowe"/>
+            {showProfileImgModal
+              ? (
+                <ModalWindow onClick={onClick} nameType={'Nazwa użytkownika'}>
+                  <div id="testing"></div>
+                </ModalWindow>
+              ): false}
             <AccountSettingsComponent
               nameType="Nazwa użytkownika"
               var={authenticatedUser.username} />
@@ -42,11 +64,11 @@ const AccountSettings = ({ authenticatedUser }) => {
               } />
             <AccountSettingsComponent
               nameType="Hasło"
-              var="********" />
+            var="********" />
             {/* <div id="vanilla-demo">
 
             </div> */}
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
           </div>
         ) : (
