@@ -312,6 +312,7 @@ input {
           transform: translate(-50%, -50%);
   background-color: #1f1f1f;
   width: 90%;
+  max-width: 600px;
 }
 
 /* .modal-header {
