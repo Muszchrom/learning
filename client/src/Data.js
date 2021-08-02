@@ -5,7 +5,6 @@ const apiBaseUrl = {
 export default class Data {
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = apiBaseUrl.apiBaseUrl + path;
-
     const options = {
       method,
       headers: {
@@ -19,19 +18,16 @@ export default class Data {
 
     // Check if auth is required
     if (requiresAuth) {
-      // we're using btoa() to encode passed credentials
-      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
-
-      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
+      options.headers['Authorization'] = `${credentials.email}:${credentials.password}`;
     }
 
     return fetch(url, options);
   }
 
-  async getUser(username, password) {
-    const response = await this.api(`/users`, 'GET', null, true, { username, password });
+  async getUser(email, password) {
+    const response = await this.api(`/users`, 'GET', null, true, { email, password });
     if (response.status === 200) {
-      return response.json().then(data => data);
+      return response.json(); // .then(data => data)
     }
     else if (response.status === 401) {
       return null;

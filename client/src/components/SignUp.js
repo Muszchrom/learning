@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Link
+  Link,
+  useHistory
 } from 'react-router-dom';
 
-const SignUp = ({data}) => {
+const SignUp = ({ data }) => {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -11,7 +12,9 @@ const SignUp = ({data}) => {
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const submit = (e) => {
+  let history = useHistory();
+
+  const submit = e => {
     e.preventDefault();
     const user = {
       name,
@@ -27,10 +30,8 @@ const SignUp = ({data}) => {
           setErrors(errors);
         } else {
           console.log(`${username} is successfully signed up and authenticated!`);
-          // context.actions.signIn(username, password)
-          //   .then(() => {
-          //     this.props.history.push('/authenticated');
-          //   })
+          setErrors([]);
+          history.push('/accountsettings');
         }
       })
       .catch(err => {  // Handle rejected promises
@@ -39,6 +40,7 @@ const SignUp = ({data}) => {
       });
     }
 
+  // Displaying error messages, colors and icons when error/errors occur
   useEffect(() => {
     const inputErrors = {
       name: {hasError: false, message: ''},

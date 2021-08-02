@@ -1,33 +1,42 @@
 import React, {useState} from 'react';
 import {
-  Link
+  Link,
+  useHistory
 } from 'react-router-dom';
 
-const SignIn = () => {
+const SignIn = ({signIn}) => {
 
-  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState('');
-  const plogin = 'Karol123';
-  const ppassword = 'Karol123';
 
-  const validateUserInput = e => {
+  let history = useHistory();
+
+  const submit = e => {
     e.preventDefault();
-    if (login !== plogin || password !== ppassword) {
-      setErrors(() => ('Niepoprawny login i/lub hasło'));
-      setPassword('');
-    } else {
-      setErrors(() => (''));
-    }
+
+    signIn(email, password)
+      .then(user => {
+        if (user === null) {
+          setErrors('Niepoprawny email i/lub hasło');
+        } else {
+          setErrors(() => (''));
+          console.log(`${email} is now signed in`);
+          history.push('/');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   return (
-    <form method="post" onSubmit={validateUserInput}>
+    <form method="post" onSubmit={submit}>
       <h1>Zaloguj się</h1>
       <fieldset>
-        {errors && <p className="error-message-info">Niepoprawny login i/lub hasło</p>}
-        <label htmlFor="login">Podaj Login:</label>
-        <input type="text" id="login" value={login} onChange={e => setLogin(e.target.value)}/>
+        {errors && <p className="error-message-info">Niepoprawny email i/lub hasło</p>}
+        <label htmlFor="email">Podaj Email:</label>
+        <input type="text" id="email" value={email} onChange={e => setEmail(e.target.value)}/>
         <label htmlFor="password">Podaj Hasło:</label>
         <input type="text" id="password" value={password} onChange={e => setPassword(e.target.value)}/>
         <button type="submit" name="button">Zaloguj się</button>

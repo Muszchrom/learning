@@ -4,32 +4,57 @@ const express = require('express');
 const { check, validationResult } = require('express-validator');
 const bcryptjs = require('bcryptjs');
 const auth = require('basic-auth');
-
-// This array is used to keep track of user records
-// as they are created.
-const users = [];
+const jwt = require('jsonwebtoken');
+// Using variables instead of Database atm.
+// psswd for Karol: Karol1
+const users = [
+  {
+    name: 'Karol',
+    username: 'Karol',
+    email: 'karol@karol.karol',
+    password: '$2a$10$PZJ9tozlpf1AqvtBw.y2aeDP5qdLfbty3auwXjetYOtGN..2e4C8y'
+  }
+];
 const moneyForMinecraftServer = {
   progress: 12.20,
   goal: 36.90
 };
 
-/**
- * Middleware to authenticate the request using Basic Authentication.
- * @param {Request} req - The Express Request object.
- * @param {Response} res - The Express Response object.
- * @param {Function} next - The function to call to pass execution to the next middleware.
- */
 const authenticateUser = (req, res, next) => {
   let errorMessage = null;
-  const credentials = auth(req);
-  if (credentials) {
-    console.log(users);
-  } else {
-    console.log('nah man');
-  }
+
+  const credentials = req.headers.authorization;
   console.log(credentials);
-  // console.log(req);
-  // next();
+  const splitCred = credentials.split(':');
+  const email = splitCred[0];
+  const password = splitCred[1];
+
+  // check if credentials exists
+  if (credentials) {
+    const user = users.find(u => u.email === email)
+    // check if user with provided email exists
+    if (user) {
+      const authenticated = bcryptjs.compareSync(password, user.password);
+      // check if provided password match password for provided email
+      if (authenticated) {
+        console.log(`Authentication successful for email: ${email}`);
+        req.currentUser = user;
+      } else {
+        errorMessage = `Authentication failure for email: ${email}`
+      }
+    } else {
+      errorMessage = `User not found for email: ${email}`
+    }
+  } else {
+    errorMessage = 'Auth header not found'
+  }
+
+  if (errorMessage) {
+    console.warn(errorMessage);
+    res.status(401).json({message: 'Access Denied'});
+  } else {
+    next();
+  }
 };
 
 // Construct a router instance.
@@ -39,19 +64,13 @@ const router = express.Router();
 router.get('/users', authenticateUser, (req, res) => {
   const user = req.currentUser;
 
+  // console.log(user);
   res.json({
     name: user.name,
     username: user.username,
-  });
+    email: user.email
+  })
 });
-
-// Imię,
-// Nazwa użytkownika,
-// email,
-// hasło,
-// powtórz hasło
-
-// const user = users.find(u => u.username === credentials.name);
 
 const validationChain = [
   check('name')
@@ -120,7 +139,12 @@ router.post('/users', validationChain, (req, res) => {
   }
 
   // Get the user from the request body.
-  const user = req.body;
+  const user = {
+    name: req.body.name,
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password
+  };
 
   // Hash the new user's password.
   user.password = bcryptjs.hashSync(user.password);
@@ -128,12 +152,10 @@ router.post('/users', validationChain, (req, res) => {
   // Add the user to the `users` array.
   users.push(user);
 
-  // Set the status to 201 Created and end the response.
   return res.status(201).end();
 });
 
 // Route for getting info about progress bar
-
 router.get('/minecraft-progress-bar', (req, res) => {
   res.json({
     moneyForMinecraftServer
