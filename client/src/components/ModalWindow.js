@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import close from '../images/close_black_24dp.svg';
 
 export default function ModalWindow (props) {
   const overlay = useRef();
@@ -54,8 +53,8 @@ export default function ModalWindow (props) {
         <span ref={firstFocusPortal} tabIndex='0'></span>
         <div className="modal-header">
           <h3 className="modal-title">{title}</h3>
-          <button ref={firstFocusElement} className="modal-close-button" onClick={props.onClick}>
-            <img src={close} alt="Zamknij" />
+          <button aria-label="Zamknij" ref={firstFocusElement} className="modal-close-button" onClick={props.onClick}>
+            <i className="close-button-svg"></i>
           </button>
         </div>
         {props.nameType === 'Nazwa użytkownika'

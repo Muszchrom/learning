@@ -219,6 +219,10 @@ button:active {
   background-color: #0f0f0f;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 form {
 }
 
@@ -317,7 +321,7 @@ input {
   max-width: 600px;
 }
 
-.test {
+.close-button-svg {
   background-image: url("images/close_black_24dp.svg");
   width: 25px;
   height: 25px;
