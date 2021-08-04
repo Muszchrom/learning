@@ -12,6 +12,7 @@ import Data from './Data';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import NotFound from './components/NotFound';
+import Error from './components/Error';
 
 import Home from './components/Home';
 import Kalkulator from './components/Kalkulator';
@@ -73,6 +74,9 @@ function App() {
             </Route>
             <Route path="/accountsettings">
               <AccountSettings authenticatedUser={value.authenticatedUser}/>
+            </Route>
+            <Route path="/error">
+              <Error />
             </Route>
             <Route component={NotFound} />
           </Switch>

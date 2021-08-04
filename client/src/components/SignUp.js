@@ -4,6 +4,8 @@ import {
   useHistory
 } from 'react-router-dom';
 
+import LoadingAnimation from './LoadingAnimation';
+
 const SignUp = ({ data }) => {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -11,11 +13,14 @@ const SignUp = ({ data }) => {
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   let history = useHistory();
 
   const submit = e => {
     e.preventDefault();
+    setLoading(true);
+
     const user = {
       name,
       username,
@@ -28,15 +33,18 @@ const SignUp = ({ data }) => {
       .then(errors => {
         if (errors.length) {
           setErrors(errors);
+          setLoading(false);
         } else {
-          console.log(`${username} is successfully signed up and authenticated!`);
+          setLoading(false);
           setErrors([]);
+          console.log(`${username} is successfully signed up and authenticated!`);
           history.push('/accountsettings');
         }
       })
-      .catch(err => {  // Handle rejected promises
+      .catch(err => {
+        setLoading(false);
         console.log(err);
-        // this.props.history.push('/error'); // push history stack
+        history.push('/error');
       });
     }
 
@@ -125,7 +133,10 @@ const SignUp = ({ data }) => {
           </i>
         </div>
       </fieldset>
-      <button type="submit" name="button">Zarejestruj się</button>
+      <button type="submit" name="button" style={{position: 'relative'}}>
+        Zarejestruj się
+        {loading ? <LoadingAnimation /> : false}
+      </button>
       <h2>Masz konto?</h2>
       <Link className="a-button" to="signin">Zaloguj się</Link>
     </form>

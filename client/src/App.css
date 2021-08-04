@@ -153,6 +153,7 @@ Hamburger zajebany
   background-color: #1f1f1f;
   border-right: 1px solid black;
   position: absolute;
+  z-index: 1;
   top: 0;
   left: 0;
   transform: translateX(-250px);
@@ -386,6 +387,32 @@ input {
 }
 
 /* / account settings */
+
+.lds-dual-ring {
+  display: inline-block;
+}
+.lds-dual-ring:after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: .9em;
+  margin-left: 10px;
+  width: .8em;
+  height: .8em;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 @media (min-width: 1250px) {
   main {
