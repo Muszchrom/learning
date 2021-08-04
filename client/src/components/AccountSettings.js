@@ -36,9 +36,11 @@ const AccountSettings = ({ authenticatedUser }) => {
   }
 
   useEffect(() => {
-    imageElement.current.addEventListener('click', () => {
-      setShowProfileImgModal(true);
-    })
+    if (imageElement.current) {
+      imageElement.current.addEventListener('click', () => {
+        setShowProfileImgModal(true);
+      })
+    }
   }, [showProfileImgModal])
 
   return (
