@@ -24,15 +24,27 @@ export default function ModalWindow (props) {
 
   useEffect(() => {
     document.addEventListener('focusin', trapFocus);
-
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "Escape") {
+        props.onClick();
+      }
+    })
+ // nameType={'Nazwa użytkownika'}
     const modal = document.querySelector('.modal');
     if (modal) {
-      lastFocusElement.current.focus();
-      lastFocusElement.current.blur();
+      if (lastFocusElement.current && lastFocusElement.current) {
+        lastFocusElement.current.focus();
+        lastFocusElement.current.blur();
+      }
     }
 
     return function cleanup() {
       document.removeEventListener('focusin', trapFocus);
+      document.removeEventListener('keydown', (e) => {
+        if (e.key === "Escape") {
+          props.onClick();
+        }
+      })
     }
 
     function trapFocus(e) {
@@ -44,7 +56,7 @@ export default function ModalWindow (props) {
         firstFocusElement.current.focus();
       }
     }
-  }, []);
+  }, [props]);
 
   return (
     <div>
@@ -63,7 +75,7 @@ export default function ModalWindow (props) {
             ? <Email onClick={props.onClick} lastFocusElement={lastFocusElement}/>
             : props.nameType === 'Hasło'
               ? <Password onClick={props.onClick} lastFocusElement={lastFocusElement}/>
-              : false
+              : props.children
         }
         <span ref={lastFocusPortal} tabIndex='0'></span>
       </div>
