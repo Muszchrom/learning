@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import 'croppie/croppie.css'
 // import Croppie from 'croppie';
@@ -35,26 +35,18 @@ const AccountSettings = ({ authenticatedUser }) => {
     showProfileImgModal ? setShowProfileImgModal(false) : setShowProfileImgModal(true);
   }
 
-  useEffect(() => {
-    if (imageElement.current) {
-      imageElement.current.addEventListener('click', () => {
-        setShowProfileImgModal(true);
-      })
-    }
-  }, [showProfileImgModal])
-
   return (
     <div>
       {authenticatedUser
         ? (
           <div className="account-settings-container">
             <h1>Cześć {authenticatedUser.name}!</h1>
-            <img src={image} ref={imageElement} className="account-settings-image" tabIndex="0" alt="Zdjęcie profilowe"/>
+            <button className="account-settings-image-button" onClick={onClick}>
+              <img src={image} ref={imageElement} role="button" className="account-settings-image" alt="Zdjęcie profilowe"/>
+            </button>
             {showProfileImgModal
               ? (
-                <ModalWindow onClick={onClick} nameType={'Nazwa użytkownika'}>
-                  <div id="testing"></div>
-                </ModalWindow>
+                <ModalWindow onClick={onClick} nameType={'Nazwa użytkownika'} />
               ): false}
             <AccountSettingsComponent
               nameType="Nazwa użytkownika"
