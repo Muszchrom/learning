@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import 'croppie/croppie.css'
-// import Croppie from 'croppie';
+import Croppie from 'croppie';
 
 import AccountSettingsComponent from './AccountSettingsComponent';
 import ModalWindow from './ModalWindow';
@@ -10,30 +10,53 @@ import image from '../images/impostor.jpg'
 
 const AccountSettings = ({ authenticatedUser }) => {
 
-  const imageElement = useRef();
+  const button = useRef();
+  const shadow = useRef();
+  const croppieDiv = useRef();
   const [showProfileImgModal, setShowProfileImgModal] = useState(false);
 
-  // const XD = 'aids';
-  //
-  // useEffect(() => {
-  //   var el = document.getElementById('vanilla-demo');
-  //   var vanilla = new Croppie(el, {
-  //       viewport: { width: 200, height: 200, type: 'circle'},
-  //       boundary: { width: 320, height: 220}
-  //   });
-  //   vanilla.bind({
-  //       url: image,
-  //   });
-  //   //on button click
-  //   vanilla.result('blob').then(function(blob) {
-  //       // do something with cropped blob
-  //   });
-  // }, [XD])
-  // console.log(authenticatedUser)
+  const XD = 'aids';
+
+  useEffect(() => {
+    if (croppieDiv.current) {
+      var el = croppieDiv.current;
+      var vanilla = new Croppie(el, {
+        viewport: { width: 200, height: 200, type: 'circle'},
+        boundary: { width: 320, height: 220}
+      });
+      vanilla.bind({
+        url: image,
+      });
+      //on button click
+      vanilla.result('blob').then(function(blob) {
+        // do something with cropped blob
+      });
+    }
+  }, [showProfileImgModal])
 
   const onClick = () => {
     showProfileImgModal ? setShowProfileImgModal(false) : setShowProfileImgModal(true);
   }
+
+  useEffect(() => {
+    if (button.current) {
+      button.current.addEventListener('mouseover', () => {
+        toggleStyles();
+      })
+      button.current.addEventListener('mouseout', () => {
+        toggleStyles();
+      });
+      button.current.addEventListener('focus', () => {
+        toggleStyles();
+      });
+      button.current.addEventListener('focusout', () => {
+        toggleStyles();
+      });
+      const toggleStyles = () => {
+        shadow.current.classList.toggle('box-shadow');
+      }
+    }
+  }, []);
 
   return (
     <div>
@@ -41,12 +64,20 @@ const AccountSettings = ({ authenticatedUser }) => {
         ? (
           <div className="account-settings-container">
             <h1>Cześć {authenticatedUser.name}!</h1>
-            <button className="account-settings-image-button" onClick={onClick}>
-              <img src={image} ref={imageElement} role="button" className="account-settings-image" alt="Zdjęcie profilowe"/>
+            <button ref={button} className="account-settings-image-button" onClick={onClick}>
+              <img src={image} role="button" className="account-settings-image" alt="Zdjęcie profilowe"/>
+              <div ref={shadow}></div>
             </button>
             {showProfileImgModal
               ? (
-                <ModalWindow onClick={onClick} nameType={'Nazwa użytkownika'} />
+                <ModalWindow onClick={onClick} title="Zmień zdjęcie profilowe">
+                  <div className="modal-form">
+                    <div ref={croppieDiv}>
+
+                    </div>
+                    <button>Wybierz zdjęcie</button>
+                  </div>
+                </ModalWindow>
               ): false}
             <AccountSettingsComponent
               nameType="Nazwa użytkownika"
@@ -59,9 +90,6 @@ const AccountSettings = ({ authenticatedUser }) => {
             <AccountSettingsComponent
               nameType="Hasło"
             var="********" />
-            {/* <div id="vanilla-demo">
-
-            </div> */}
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
           </div>
