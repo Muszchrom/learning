@@ -15,8 +15,6 @@ const AccountSettings = ({ authenticatedUser }) => {
   const croppieDiv = useRef();
   const [showProfileImgModal, setShowProfileImgModal] = useState(false);
 
-  const XD = 'aids';
-
   useEffect(() => {
     if (croppieDiv.current) {
       var el = croppieDiv.current;
