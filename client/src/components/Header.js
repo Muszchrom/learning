@@ -80,7 +80,7 @@ const Header = (props) => {
       <div className="header-wrapper">
 
         <span ref={topTabTrap}></span>
-        <button ref={firstFocusableElement} className="hamburger" onClick={handleClick}>
+        <button ref={firstFocusableElement} aria-label="Otwórz menu" className="hamburger" onClick={handleClick}>
           <span className="hamburger-box">
             <span className="hamburger-inner"></span>
           </span>
