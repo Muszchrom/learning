@@ -265,6 +265,20 @@ input {
   color: var(--white);
 }
 
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-input {
+  color: var(--text-color-1);
+  background-color: var(--black);
+  width: 100%;
+  padding: 1em;
+  border: 0;
+  font-size: .8em;
+  text-align: center;
+}
+
 /* croppy */
 
 .cr-slider-wrap input {
