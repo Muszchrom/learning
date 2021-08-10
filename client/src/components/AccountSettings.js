@@ -73,7 +73,10 @@ const AccountSettings = ({ authenticatedUser }) => {
                     <div ref={croppieDiv}>
 
                     </div>
-                    <button>Wybierz zdjęcie</button>
+                    <label id="lastFocusElement" className="custom-file-input" tabIndex="0">
+                      <input type="file" accept=".jpg,.png" />
+                      Wybierz zdjęcie
+                    </label>
                   </div>
                 </ModalWindow>
               ): false}

@@ -6,9 +6,7 @@ export default function ModalWindow (props) {
 
   const firstFocusPortal = useRef();
   const lastFocusPortal = useRef();
-
   const firstFocusElement = useRef();
-  const lastFocusElement = useRef();
 
   let title = '';
 
@@ -23,18 +21,31 @@ export default function ModalWindow (props) {
   }
 
   useEffect(() => {
+    const lastFocusElementID = document.getElementById('lastFocusElement');
+
     document.addEventListener('focusin', trapFocus);
     document.addEventListener('keydown', (e) => {
       if (e.key === "Escape") {
         props.onClick();
       }
     })
- // nameType={'Nazwa użytkownika'}
-    const modal = document.querySelector('.modal');
+
     if (modal) {
-      if (lastFocusElement.current && lastFocusElement.current) {
-        lastFocusElement.current.focus();
-        lastFocusElement.current.blur();
+      if (lastFocusElementID) {
+        lastFocusElementID.focus();
+        lastFocusElementID.blur();
+      }
+    }
+
+    function trapFocus(e) {
+      if (lastFocusElementID) {
+        if (e.target === firstFocusPortal.current) {
+          lastFocusElementID.focus();
+        }
+
+        if (e.target === lastFocusPortal.current) {
+          firstFocusElement.current.focus();
+        }
       }
     }
 
@@ -45,16 +56,6 @@ export default function ModalWindow (props) {
           props.onClick();
         }
       })
-    }
-
-    function trapFocus(e) {
-      if (e.target === firstFocusPortal.current) {
-        lastFocusElement.current.focus();
-      }
-
-      if (e.target === lastFocusPortal.current) {
-        firstFocusElement.current.focus();
-      }
     }
   }, [props]);
 
@@ -70,11 +71,11 @@ export default function ModalWindow (props) {
           </button>
         </div>
         {props.nameType === 'Nazwa użytkownika'
-          ? <Username onClick={props.onClick} lastFocusElement={lastFocusElement}/>
+          ? <Username onClick={props.onClick}/>
           : props.nameType === 'Email'
-            ? <Email onClick={props.onClick} lastFocusElement={lastFocusElement}/>
+            ? <Email onClick={props.onClick}/>
             : props.nameType === 'Hasło'
-              ? <Password onClick={props.onClick} lastFocusElement={lastFocusElement}/>
+              ? <Password onClick={props.onClick}/>
               : props.children
         }
         <span ref={lastFocusPortal} tabIndex='0'></span>
@@ -90,7 +91,7 @@ function Username (props) {
       <input></input>
       <label>Podaj hasło:</label>
       <input></input>
-      <button ref={props.lastFocusElement} type="submit" className="" onClick={props.onClick}>Zatwierdź</button>
+      <button id="lastFocusElement" type="submit" className="" onClick={props.onClick}>Zatwierdź</button>
     </form>
   );
 }
@@ -102,7 +103,7 @@ function Email (props) {
       <input></input>
       <label>Podaj hasło:</label>
       <input></input>
-      <button ref={props.lastFocusElement} type="submit" className="" onClick={props.onClick}>Zatwierdź</button>
+      <button id="lastFocusElement" type="submit" className="" onClick={props.onClick}>Zatwierdź</button>
     </form>
   );
 }
@@ -116,7 +117,7 @@ function Password (props) {
       <input></input>
       <label>Podaj stare hasło:</label>
       <input></input>
-      <button ref={props.lastFocusElement} type="submit" className="" onClick={props.onClick}>Zatwierdź</button>
+      <button id="lastFocusElement" type="submit" className="" onClick={props.onClick}>Zatwierdź</button>
     </form>
   );
 }
