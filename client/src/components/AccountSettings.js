@@ -14,13 +14,39 @@ const AccountSettings = ({ authenticatedUser }) => {
   const shadow = useRef();
   const croppieDiv = useRef();
   const [showProfileImgModal, setShowProfileImgModal] = useState(false);
+  const [fileUploaded, setFileUploaded] = useState(false);
+  const [inputError, setInputError] = useState(null);
 
+  const onClick = () => {
+    showProfileImgModal ? setShowProfileImgModal(false) : setShowProfileImgModal(true);
+    fileUploaded && setFileUploaded(false);
+  }
+  const validateInput = (e) => {
+    // validate size
+    const size = e.target.files[0].size
+    if (size > 4000000) {
+      setInputError("Plik nie może być większy niż 4MB");
+    } else {
+      // validate extension
+      const fileName = e.target.value;
+      const dotIndex = fileName.lastIndexOf('.') + 1;
+      const extension = fileName.substr(dotIndex, fileName.length).toLowerCase();
+      if (extension === "jpg" || extension === "jpeg" || extension === "png") {
+        setInputError(null);
+        setFileUploaded(true);
+      } else {
+        setInputError("Formatem pliku musi być .JPG lub .PNG");
+      }
+    }
+  }
+
+  // Effect for croppie
   useEffect(() => {
     if (croppieDiv.current) {
       var el = croppieDiv.current;
       var vanilla = new Croppie(el, {
         viewport: { width: 200, height: 200, type: 'circle'},
-        boundary: { width: 320, height: 220}
+        boundary: { height: 220}
       });
       vanilla.bind({
         url: image,
@@ -30,12 +56,9 @@ const AccountSettings = ({ authenticatedUser }) => {
         // do something with cropped blob
       });
     }
-  }, [showProfileImgModal])
+  }, [fileUploaded, showProfileImgModal])
 
-  const onClick = () => {
-    showProfileImgModal ? setShowProfileImgModal(false) : setShowProfileImgModal(true);
-  }
-
+  // Effect for hovering over profile image
   useEffect(() => {
     if (button.current) {
       button.current.addEventListener('mouseover', () => {
@@ -70,13 +93,23 @@ const AccountSettings = ({ authenticatedUser }) => {
               ? (
                 <ModalWindow onClick={onClick} title="Zmień zdjęcie profilowe">
                   <div className="modal-form">
-                    <div ref={croppieDiv}>
+                    {fileUploaded
+                      ? (
+                        <>
+                          <div ref={croppieDiv}>
 
-                    </div>
-                    <label id="lastFocusElement" className="custom-file-input" tabIndex="0">
-                      <input type="file" accept=".jpg,.png" />
-                      Wybierz zdjęcie
-                    </label>
+                          </div>
+                          <button>Zapisz</button>
+                        </>
+                      ): (
+                        <div>
+                          {inputError && <p className="error-message-info">{inputError}</p>}
+                          <label id="lastFocusElement" className="custom-file-input" tabIndex="0">
+                            <input type="file" accept=".jpg, .png" onChange={e => validateInput(e)}/>
+                            Wybierz zdjęcie
+                          </label>
+                        </div>
+                      )}
                   </div>
                 </ModalWindow>
               ): false}
@@ -88,11 +121,7 @@ const AccountSettings = ({ authenticatedUser }) => {
               var={
                 '*'.repeat(authenticatedUser.email.split('@')[0].length) + '@' + authenticatedUser.email.split('@')[1]
               } />
-            <AccountSettingsComponent
-              nameType="Hasło"
-            var="********" />
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-
+            <AccountSettingsComponent nameType="Hasło" var="********" />
           </div>
         ) : (
           <Redirect to="/signin" />

@@ -49,7 +49,7 @@ const SignIn = ({signIn}) => {
         <input type="text" id="password" value={password} onChange={e => setPassword(e.target.value)}/>
         <button type="submit" name="button" style={{position: 'relative'}}>
         Zaloguj się
-        {loading ? <LoadingAnimation /> : false}
+        {loading && <LoadingAnimation />}
         </button>
 
       </fieldset>
