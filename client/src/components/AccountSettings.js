@@ -10,6 +10,7 @@ import impostor from '../images/impostor.jpg'
 
 const AccountSettings = ({ authenticatedUser }) => {
 
+  // Now ill take a break of frontend ad master my rest api skills so i can make this croppie even more usefull 
   const button = useRef();
   const shadow = useRef();
   const croppieDiv = useRef();
