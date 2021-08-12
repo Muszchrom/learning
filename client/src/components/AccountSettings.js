@@ -6,22 +6,29 @@ import Croppie from 'croppie';
 import AccountSettingsComponent from './AccountSettingsComponent';
 import ModalWindow from './ModalWindow';
 
-import image from '../images/impostor.jpg'
+import impostor from '../images/impostor.jpg'
 
 const AccountSettings = ({ authenticatedUser }) => {
 
   const button = useRef();
   const shadow = useRef();
   const croppieDiv = useRef();
+
   const [showProfileImgModal, setShowProfileImgModal] = useState(false);
   const [fileUploaded, setFileUploaded] = useState(false);
+
+  const [profilePicture, setProfilePicture] = useState(impostor);
+  const [image, setImage] = useState(null);
+  const [croppie, setCroppie] = useState(null);
   const [inputError, setInputError] = useState(null);
 
   const onClick = () => {
     showProfileImgModal ? setShowProfileImgModal(false) : setShowProfileImgModal(true);
     fileUploaded && setFileUploaded(false);
   }
-  const validateInput = (e) => {
+
+  // validate input image
+  const validateInputImage = (e) => {
     // validate size
     const size = e.target.files[0].size
     if (size > 4000000) {
@@ -32,31 +39,56 @@ const AccountSettings = ({ authenticatedUser }) => {
       const dotIndex = fileName.lastIndexOf('.') + 1;
       const extension = fileName.substr(dotIndex, fileName.length).toLowerCase();
       if (extension === "jpg" || extension === "jpeg" || extension === "png") {
+        // if all fine run setUpImage fucntion and set errors to null;
         setInputError(null);
-        setFileUploaded(true);
+        setUpImage(e.target.files[0]);
       } else {
         setInputError("Formatem pliku musi być .JPG lub .PNG");
       }
     }
   }
 
+  // setting up input image
+  const setUpImage = (file) => {
+    const imageType = /image.*/;
+    if (file.type.match(imageType)) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result);
+        setFileUploaded(true);
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+
   // Effect for croppie
   useEffect(() => {
-    if (croppieDiv.current) {
-      var el = croppieDiv.current;
-      var vanilla = new Croppie(el, {
-        viewport: { width: 200, height: 200, type: 'circle'},
-        boundary: { height: 220}
-      });
-      vanilla.bind({
-        url: image,
-      });
-      //on button click
-      vanilla.result('blob').then(function(blob) {
-        // do something with cropped blob
-      });
-    }
-  }, [fileUploaded, showProfileImgModal])
+      const el = croppieDiv.current;
+      if (el) {
+        const croppieInstance = new Croppie(el, {
+          viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'},
+          boundary: {
+            height: 220
+          }
+        });
+        croppieInstance.bind({
+          url: image,
+        });
+        setCroppie(croppieInstance);
+      }
+  }, [fileUploaded, image])
+
+  const handleImageSubmit = (e) => {
+    e.preventDefault();
+    croppie.result('base64').then((blob) => {
+      setProfilePicture(blob);
+    });
+    showProfileImgModal ? setShowProfileImgModal(false) : setShowProfileImgModal(true);
+    fileUploaded && setFileUploaded(false);
+  }
 
   // Effect for hovering over profile image
   useEffect(() => {
@@ -86,7 +118,7 @@ const AccountSettings = ({ authenticatedUser }) => {
           <div className="account-settings-container">
             <h1>Cześć {authenticatedUser.name}!</h1>
             <button ref={button} className="account-settings-image-button" onClick={onClick}>
-              <img src={image} role="button" className="account-settings-image" alt="Zdjęcie profilowe"/>
+              <img src={profilePicture} role="button" className="account-settings-image" alt="Zdjęcie profilowe"/>
               <div ref={shadow}></div>
             </button>
             {showProfileImgModal
@@ -95,17 +127,18 @@ const AccountSettings = ({ authenticatedUser }) => {
                   <div className="modal-form">
                     {fileUploaded
                       ? (
-                        <>
+                        <form onSubmit={handleImageSubmit}>
                           <div ref={croppieDiv}>
 
                           </div>
-                          <button>Zapisz</button>
-                        </>
+                          <input />
+                          <button type="submit">Potwierdź</button>
+                        </form>
                       ): (
                         <div>
                           {inputError && <p className="error-message-info">{inputError}</p>}
                           <label id="lastFocusElement" className="custom-file-input" tabIndex="0">
-                            <input type="file" accept=".jpg, .png" onChange={e => validateInput(e)}/>
+                            <input type="file" accept=".jpg, .png" onChange={e => validateInputImage(e)}/>
                             Wybierz zdjęcie
                           </label>
                         </div>
