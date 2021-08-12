@@ -402,6 +402,7 @@ input[type="file"] {
 .account-settings-image {
   border-radius: 50%;
   width: 100%;
+  height: 100%;
 }
 
 .account-settings-image-button:focus, .account-settings-image-button:hover {
